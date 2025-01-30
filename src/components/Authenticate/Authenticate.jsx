@@ -3,6 +3,7 @@ import axios from "axios";
 
 function Authenticate({ token }) {
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
   async function handleClick() {
     console.log("authenticating...");
     try {
@@ -11,6 +12,9 @@ function Authenticate({ token }) {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       console.log(result);
+      if (result.data.success) {
+        setSuccess(true);
+      }
     } catch (err) {
       console.error(err);
       setError(err.message);
@@ -20,6 +24,7 @@ function Authenticate({ token }) {
     <div>
       <h2>Authenticate</h2>
       {error && <p>Error Authenticating ({error}), please try again....</p>}
+      {success && <p>Authenticated successfully!</p>}
       <button onClick={handleClick}>Authenticate Here</button>
     </div>
   );
